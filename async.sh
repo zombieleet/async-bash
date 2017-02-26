@@ -2,6 +2,10 @@
 
 declare -a JOB_IDS
 
+declare -i JOBS=1;
+
+source ./functions.sh;
+
 setTimeout() {
     local command="$1"
     local after="$2"
@@ -21,12 +25,21 @@ setTimeout() {
 	return 1;
     }
 
-    {
+    (
 	sleep ${after}
 	$command
-    } &
+    ) &
     
-    JOB_IDS+=( $! )
+    JOB_IDS+=( "${JOBS} ${command}" )
+    
+
+    
+    read -d " " -a __kunk__ <<< "${JOB_IDS[$(( ${#JOB_IDS[@]} - 1))]}"
+
+    echo ${__kunk__}
+
+    : $(( JOBS++ ))
+
 }
 
 setInterval() {
@@ -48,7 +61,20 @@ setInterval() {
 	
 	return 1;
     }
+
+    {
+	while sleep ${after};do
+	    $command
+	done
+    } &
     
+    JOB_IDS+=( "${JOBS} ${command}" )
+    
+    read -d " " -a __kunk__ <<< "${JOB_IDS[$(( ${#JOB_IDS[@]} - 1))]}"
+
+    echo ${__kunk__}
+
+    : $(( JOBS++ ))
 }
 
 killJob() {
@@ -86,21 +112,41 @@ killJob() {
 	
 	(( isSig != 1 )) && {
 	    signal="SIGTERM"
-	    echo "$signal"
 	}
 	
     }
     
     
-    for job in ${!JOB_IDS[@]};do
+
+    for job in ${JOB_IDS[@]};do
 	
-	(( job == jobToKill )) && {
-	    :
+	# increment job to 1 since array index starts from 0
+	read -d " " -a __kunk__ <<< "${JOB_IDS[$job]}"
+	
+	(( __kunk__ == jobToKill )) && {
+	    
+
+	    read -d " " -a __kunk__ <<< "${JOB_IDS[$job]}"
+	    
+	    kill -${signal} %${__kunk__}
+	    
+	    local status=$?
+	    
+	    (( status != 0 )) && {
+		
+
+		printf "cannot kill %s %d\n" "${JOB_IDS[$job]}" "${__kunk__}"
+		
+		return 1;
+	    }
+
+	    printf "%d killed with %s\n" "${__kunk__}" "${signal}" 
+	    
+	    return 0;
 	}
 	
-    done
+    done    
 }
-killJob 5
 
 function s() {
     while read line;do
@@ -108,10 +154,23 @@ function s() {
     done < /etc/passwd
 }
 
-#setTimeout s 10
+function d() {
+    echo "hi"
+}
 
-#echo ${JOB_IDS[0]}
+setTimeout s 2
+#setTimeout s 2
+setInterval d 3
 
+killJob 1 SIGTERM
 
 #echo "Hi"
 
+echo "me"
+echo "me"
+echo "me"
+echo "me"
+echo "me"
+echo "me"
+echo "me"
+echo "me"
