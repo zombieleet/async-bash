@@ -305,73 +305,13 @@ series() {
 	    $finalFunc "${__result}" ""
 	}
     } &
-	
-}
-
-a=( victory favour johnson )
-
-mainfunc() {
-    while read line;do
-	if [[ "$line" =~ "root" ]];then
-	    echo $line
-	    return 0;
-	else
-	    echo $line
-	    return 0;
-	fi
-    done </etc/passwd
-}
-
-victory() {
-    local line="$1"
-    if [[ $line =~ "bash" ]];then
-	echo "${line##*:}"
-	return 0;
-    fi
     
-    return 0;
-}
-favour() {
+    JOB_IDS+=( "${JOBS} ${command}" )
     
-    local exists="$1"
+    read -d " " -a __kunk__ <<< "${JOB_IDS[$(( ${#JOB_IDS[@]} - 1))]}"
     
-    {
-	[[ -e "$exists" ]]  && [[ -f "$exists" ]]
-	    
-    } && {
-	echo $exists
-    }
-
-    return 0;
-}
-johnson() {
-    local file=$(file "$1")
-    if [[ $file =~ "ELF" ]];then
-	echo $file
-    fi
+    echo ${__kunk__}
     
-    return 0;
-}
-
-final() {
-    echo "$1"
-}
-
-series "mainfunc" "${a[*]}" "final"
-
-resolve() {
-    echo "suc"
-}
-
-reject() {
-    echo "$1"
-}
-
-
-get() {
-    curl -s "$1"
-}
-
-getName() {
-    echo "excess"
+    
+    : $(( JOBS++ ))
 }
