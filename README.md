@@ -61,7 +61,7 @@ This script was created to be compatible with bash versions that does not suppor
 	error() {
 		local _err="$1"
 		
-		ecoh ${_err}
+		echo ${_err}
 	}
 
 	async "curl -s http://google.com/" success error
