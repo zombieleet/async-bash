@@ -22,15 +22,16 @@ setTimeout() {
 
     read -d " " comm <<<"${command}"
 
-    declare -F $comm &>/dev/null
-    
-    local status=$?
+    #declare -F $comm &>/dev/null
 
-    { (( status != 0 )) || [[ -z "$command" ]] ; } && {
-	printf "%s\n" "\"${command}\" function has not been defined"
+    local _isDef=$(type -t ${comm})
 
+    if [[ -z "${_isDef}" ]];then
+	printf "%s\n" "\"${command}\" is not of type { function, command} "
+	
 	return 1;
-    }
+    fi
+    
     
     [[ ! $after =~ ^[[:digit:]]+$ ]] && {
 	printf "%s\n" "require an integer as the second argument but got \"$after\" "
@@ -60,14 +61,18 @@ setInterval() {
     local command="$1"
     local after="$2"
     
-    declare -F $command &>/dev/null
-    local status=$?
+    read -d " " comm <<<"${command}"
+    
 
-    { (( status != 0 )) || [[ -z "$command" ]] ; } && {
-	printf "%s\n" "\"${command}\" function has not been defined"
-
+    
+    local _isDef=$(type -t ${comm})
+    
+    if [[ -z "${_isDef}" ]];then
+	printf "%s\n" "\"${command}\" is not of type { function, command} "
+	
 	return 1;
-    }
+    fi
+    
     
     [[ ! $after =~ ^[[:digit:]]+$ ]] && {
 	printf "%s\n" "require an integer as the second argument but got \"$after\" "
@@ -161,7 +166,7 @@ killJob() {
     done    
 }
 
-function async() {
+async() {
     
     local commandToExec="$1"
     local resolve="$2"
@@ -225,7 +230,7 @@ function async() {
 }
 
 
-series() {
+parallel() {
 
     #local funcArray="${@:1:$(( ${#@} - 1 ))}"
 
