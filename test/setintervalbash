@@ -1,0 +1,2 @@
+source ../async.sh
+setInterval "uptime --pretty" 10
