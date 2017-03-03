@@ -1,6 +1,6 @@
 # async-bash
 
-***async-bash*** is a bash script that implements few asyncrhonous functions
+***async-bash*** is a bash script that implements few asynchronous functions
 
 This script was created to be compatible with bash versions that does not support `coproc`
 
@@ -8,8 +8,8 @@ This script was created to be compatible with bash versions that does not suppor
 
 1. setTimeout ( excute a function after a particular time has elapsed )
 2. setInterval ( execute a function continously after waiting for a particular number of time )
-3. async ( execute a function asyncrhonously )
-4. parallel ( execute bunch of functions asyncrhonously );
+3. async ( execute a function asynchronously )
+4. parallel ( execute bunch of functions asynchronously );
 5. KillJob ( kills a particular job );
 
 
