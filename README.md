@@ -1,6 +1,6 @@
 # async-bash
 
-**async-bash** is a bash script that implements few asyncrhonous functions
+***async-bash*** is a bash script that implements few asyncrhonous functions
 
 This script was created to be compatible with bash versions that does not support `coproc`
 
@@ -70,7 +70,7 @@ This script was created to be compatible with bash versions that does not suppor
 
 ```
 
-***parallel** execute an array of functions asynchronously. This command takes three arguments. The first argument is the main function or command to execute , the result of this command if it is successful will be passed as an argument to the second argument which is an array of functions. The third argument is the final function to execute. If the main function or array of functions fails this third argument is invoked and exits with the exit status of the failed function. The final function ( third argument ) is called last if all the functions executed successfully
+***parallel*** execute an array of functions asynchronously. This command takes three arguments. The first argument is the main function or command to execute , the result of this command if it is successful will be passed as an argument to the second argument which is an array of functions. The third argument is the final function to execute. If the main function or array of functions fails this third argument is invoked and exits with the exit status of the failed function. The final function ( third argument ) is called last if all the functions executed successfully
 
 
 ```bash
@@ -118,7 +118,7 @@ This script was created to be compatible with bash versions that does not suppor
 ```
 
 
-***killJob** This command kills a job returned by any of the asynchronous function. It takes 2 arguments. The first argument is the job id , while the second argument is the signal to send to the job. If the signal is not specified, the job with the specified id is sent a SIGTERM signal
+***killJob*** This command kills a job returned by any of the asynchronous function. It takes 2 arguments. The first argument is the job id , while the second argument is the signal to send to the job. If the signal is not specified, the job with the specified id is sent a SIGTERM signal
 
 
 ## license
